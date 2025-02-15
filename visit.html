@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MegaVoice - Онлайн вокал мектебі</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-left: 20px;
+            order: 2;
+        }
+
+        nav {
+            order: 1;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ff6b6b;
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+            order: 1;
+        }
+
+        .burger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: #fff;
+            text-align: center;
+            padding: 100px 0 50px;
+            margin-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 1s ease 0.5s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .video-section {
+            padding: 4rem 0;
+            background-color: #f4f4f4;
+        }
+
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .requirements {
+            padding: 4rem 0;
+            background-color: #fff;
+        }
+
+        .requirements h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #ff6b6b;
+        }
+
+        .requirement-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .requirement-item {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .requirement-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .requirement-item h3 {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .container2 {
+            padding: 4rem 0;
+            background-color: #f4f4f4;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #ff6b6b;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .item {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #ff6b6b;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .wrapperr {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .bg-1, .bg-2, .bg-3 {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .bg-1 {
+            width: 200px;
+            height: 200px;
+            top: -100px;
+            left: -100px;
+            animation: float 10s infinite alternate;
+        }
+
+        .bg-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            right: -150px;
+            animation: float 15s infinite alternate-reverse;
+        }
+
+        .bg-3 {
+            width: 150px;
+            height: 150px;
+            top: 50%;
+            left: 50%;
+            animation: float 12s infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(30px, 30px);
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        input {
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff5252;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-instagram {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                justify-content: space-between;
+            }
+
+            .logo {
+                width: 80px;
+                margin-left: 0;
+                order: 2;
+            }
+
+            .burger {
+                display: block;
+                order: 1;
+            }
+
+            nav {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                padding: 1rem;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+                order: 3;
+            }
+
+            nav.active {
+                transform: translateY(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 1rem 0;
+            }
+
+            .hero {
+                margin-top: 60px;
+                padding: 80px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .requirements h2, .title {
+                font-size: 1.8rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-content > div {
+                margin-bottom: 1rem;
+            }
+
+            .video-section {
+                padding: 2rem 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="header-content">
+                <div class="burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#hero">Басты бет</a></li>
+                        <li><a href="#video-section">Видео</a></li>
+                        <li><a href="#requirements">Сізге не қажет</a></li>
+                        <li><a href="#advantages">Плюс жақтары</a></li>
+                        <li><a href="#signup">Жазылу</a></li>
+                    </ul>
+                </nav>
+                <img src="images/1.jpg" alt="MegaVoice Logo" class="logo">
+            </div>
+        </header>
+
+        <section id="hero" class="hero">
+            <h1>MegaVoice - Онлайн вокал мектебі</h1>
+            <p>Әлемнің кез келген жерінен өз дауысыңызды жетілдіріңіз</p>
+        </section>
+
+        <section id="video-section" class="video-section">
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <!-- Замените URL на ваше реальное видео -->
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="requirements" class="requirements">
+            <h2>Онлайн вокал сабақтарына не қажет?</h2>
+            <div class="requirement-list">
+                <div class="requirement-item">
+                    <h3>01</h3>
+                    <p>Бейнелерді көруге арналған телефон, компьютер немесе планшет</p>
+                </div>
+                <div class="requirement-item">
+                    <h3>02</h3>
+                    <p>Дауысты жазу үшін бастапқы уақытқа микрофон</p>
+                </div>
+                <div class="requirement-item">
+                    <h3>03</h3>
+                    <p>Өлең сөздері мен жаттығуларды басып шығаруға арналған принтер</p>
+                </div>
+                <div class="requirement-item">
+                    <h3>04</h3>
+                    <p>1 сағат ән айтып,ешкімге кедергі жасамайтын уақыт пен орын</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="advantages" class="container2">
+            <div class="title">Онлайн сабақтардың жақсы жақтары</div>
+            <div class="grid">
+                <div class="item">
+                    Сіз әлемнің кез келген жерінен оқи аласыз
+                </div>
+                <div class="item">
+                    Жолға уақыт жұмсамайсыз
+                </div>
+                <div class="item">
+                    Тәжірбиесі бар педагогтармен жұмыс
+                </div>
+                <div class="item">
+                    Офлайн сабақтарда байқалмайтын ең кішкентай техникалық аспектілер пысықталады
+                </div>
+            </div>
+        </section>
+
+        <section id="signup" class="wrapperr">
+            <div class="bg-animation">
+                <div class="bg-1"></div>
+                <div class="bg-2"></div>
+                <div class="bg-3"></div>
+            </div>
+            <div class="content">
+                <div class="form-container">
+                    <form id="signup-form">
+                        <label for="name">Есіміңіз</label>
+                        <input type="text" id="name" name="name" placeholder="Есіміңізді енгізіңіз" required>
+        
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Телефон нөміріңізді енгізіңіз" required>
+        
+                        <button type="submit">Жазылу</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="wrapper">
+            <div class="footer-instagram">
+                <p>@mega_voice.astana</p>
+            </div>
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3>MegaVoice</h3>
+                    <p>Онлайн вокал мектебі</p>
+                </div>
+                <div class="footer-center">
+                    <p>Г. Астана</p>
+                    <p>Б. Майлина 8/1</p>
+                </div>
+                <div class="footer-right">
+                    <p>+7 775 253 2914</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.burger');
+            const nav = document.querySelector('nav');
+            const navLinks = document.querySelectorAll('nav ul li a');
+
+            burger.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                burger.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('active');
+                    burger.classList.remove('active');
+                });
+            });
+
+            const form = document.getElementById('signup-form');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+
+                if (name && phone) {
+                    const message = `Здравствуйте, меня зовут ${encodeURIComponent(name)}. Хочу записаться на курс. Мой номер: ${encodeURIComponent(phone)}`;
+                    const whatsappLink = `https://wa.me/77752532914?text=${message}`;
+                    window.open(whatsappLink, '_blank');
+                } else {
+                    alert('Пожалуйста, заполните все поля!');
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
